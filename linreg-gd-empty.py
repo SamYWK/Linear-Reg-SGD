@@ -17,6 +17,7 @@ def load_train_test_data(train_ratio=.5):
     feature_col = ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'X8']
     label_col = ['Y1']
     X = data[feature_col]
+    X = numpy.concatenate((numpy.ones((len(X), 1)), X), axis = 1)
     y = data[label_col]
 
     return sklearn.model_selection.train_test_split(X, y, test_size = 1 - train_ratio, random_state=0)
@@ -34,7 +35,7 @@ def gradient_descent(X, y, alpha = .001, iters = 100000, eps=1e-4):
     n, d = X.shape
     theta = numpy.zeros((d, 1))
     for iter in range(iters):
-        theta = theta - alpha*(numpy.dot(X.T, (numpy.dot(X, theta) - y)) + eps*theta)
+        theta = theta - alpha*(numpy.dot(X.T, (numpy.dot(X, theta) - y)) + theta)
     return theta
 
 
